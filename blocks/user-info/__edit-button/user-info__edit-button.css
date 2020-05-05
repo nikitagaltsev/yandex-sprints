@@ -4,3 +4,8 @@
   font-size: 12px;
   line-height: 15px;
 }
+
+.button.user-info__edit-button:hover {
+  color: black;
+  background-color: white;
+}

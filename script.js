@@ -1,43 +1,43 @@
 const initialCards = [
   {
-    name: 'Barcelona',
-    link: 'https://images.unsplash.com/photo-1587789202069-f57c846b85db?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80'
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-    name: 'Maldives',
-    link: 'https://images.unsplash.com/photo-1587578075208-f206676d9860?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=802&q=80'
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-    name: 'Shanghai',
-    link: 'https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-    name: 'Langjokull',
-    link: 'https://images.unsplash.com/photo-1482778090591-caf9a0149412?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-    name: 'Cambodia',
-    link: 'https://images.unsplash.com/photo-1540525080980-b97c4be3c779?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-    name: 'London',
-    link: 'https://images.unsplash.com/photo-1472725485116-45d54945b877?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1142&q=80'
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   },
   {
-    name: 'Moulton Falls',
-    link: 'https://images.unsplash.com/photo-1465021696408-57e53e164d0e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80'
+    name: 'Нургуш',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/khrebet-nurgush.jpg'
   },
   {
-    name: 'Sri Lanka',
-    link: 'https://images.unsplash.com/photo-1586870336143-d652f69d44c9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+    name: 'Тулиновка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/tulinovka.jpg'
   },
   {
-    name: 'Rheinland-Pfalz',
-    link: 'https://images.unsplash.com/photo-1574013573452-2d89828155a8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+    name: 'Остров Желтухина',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/zheltukhin-island.jpg'
   },
   {
-    name: 'Kyoto',
-    link: 'https://images.unsplash.com/photo-1558159857-6282096da77b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+    name: 'Владивосток',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/vladivostok.jpg'
    }
 ];
 
@@ -96,6 +96,13 @@ const removeCardHandler = function(event) {
   event.target.closest('.place-card').remove();
 };
 
+//popup для изображений
+const imagePopup = function(image) {
+  const backgroundImage = image.style.backgroundImage.replace('url(','').replace(')','').replace(/\"/gi, "");
+  document.querySelector('.popup__image-open').setAttribute('src', backgroundImage);
+  showImageForm();
+}
+
 
 // Отрисовка карточки и определение её элементов 
 const renderPlaceCard = function(item) {
@@ -108,14 +115,20 @@ const renderPlaceCard = function(item) {
 
   deleteButton.addEventListener('click', function(event) {
     removeCardHandler(event);
+    event.stopPropagation()
   });
 
   likeButton.addEventListener('click', function(event) {
     event.target.classList.toggle('place-card__like-icon_liked');
   })
 
+  newPlaceCard.querySelector('.place-card__image').addEventListener('click', function(event) {
+    imagePopup(event.target);
+  })
+
   placesContainer.appendChild(newPlaceCard);
 };
+
 
 // Управление отображением форм
 const showPlaceForm = function() {
@@ -123,7 +136,10 @@ const showPlaceForm = function() {
 };
 const showPersonForm = function() {
   document.querySelector('.popup_person').classList.toggle('popup_is-opened');
-}
+};
+const showImageForm = function() {
+  document.querySelector('.popup_image').classList.toggle('popup_is-opened');
+};
 
 
 //Добавление кастомной карточки
@@ -135,12 +151,12 @@ const userPlaceCard = function() {
   renderPlaceCard(initialCards[initialCards.length-1]);
 };
 
-//Инициальизация пользователя
+
+//Инициализация пользователя
 const changeUserInfo = function() {
   document.querySelector('.popup__input_type_person-name').setAttribute('value', userInfoName.textContent);
   document.querySelector('.popup__input_type_about').setAttribute('value', userInfoJob.textContent);
 }
-
 
 
 //Изменение пользователя
@@ -158,6 +174,7 @@ document.querySelector('.user-info__button').addEventListener('click', showPlace
 document.querySelector('.popup__close_place').addEventListener('click', showPlaceForm);
 document.querySelector('.user-info__edit-button').addEventListener('click', showPersonForm);
 document.querySelector('.popup__close_person').addEventListener('click', showPersonForm);
+document.querySelector('.popup__close_image').addEventListener('click', showImageForm);
 
 
 // Вызовы функций и методов
