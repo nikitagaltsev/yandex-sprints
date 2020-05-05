@@ -60,6 +60,11 @@ const customCard = {
   link: ''
 };
 
+const personInfo = {
+  name: '',
+  about: ''
+}
+
 
 // Функции
 //Создание карточки
@@ -91,8 +96,6 @@ const removeCardHandler = function(event) {
 
 
 // Отрисовка карточки и определение её элементов 
-
-
 const renderPlaceCard = function(item) {
   const newPlaceCard = createPlaceCard();
   newPlaceCard.querySelector('.place-card__image').setAttribute('style', `background-image: url(${item['link']})`);
@@ -121,7 +124,7 @@ const showPersonForm = function() {
 }
 
 
-//Добавление кастомой карточки
+//Добавление кастомной карточки
 const userPlaceCard = function() {
   customCard.name = inputPlaceName.value;
   customCard.link = inputPlaceLink.value;
