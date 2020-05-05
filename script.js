@@ -50,6 +50,8 @@ const inputPlaceLink = formPlace.elements.link;
 const inputPersonName = formPerson.elements.name;
 const inputPersonAbout = formPerson.elements.about;
 const inputButton = document.querySelector('.popup__button');
+const userInfoName = document.querySelector('.user-info__name');
+const userInfoJob = document.querySelector('.user-info__job');
 inputPlaceName.setAttribute('required', true);
 inputPlaceLink.setAttribute('required', true);
 inputPersonName.setAttribute('required', true);
@@ -120,7 +122,7 @@ const showPlaceForm = function() {
   document.querySelector('.popup_place').classList.toggle('popup_is-opened');
 };
 const showPersonForm = function() {
-  document.querySelector('.popup_person').classList.toggle('popup_is-opened')
+  document.querySelector('.popup_person').classList.toggle('popup_is-opened');
 }
 
 
@@ -133,6 +135,23 @@ const userPlaceCard = function() {
   renderPlaceCard(initialCards[initialCards.length-1]);
 };
 
+//Инициальизация пользователя
+const changeUserInfo = function() {
+  document.querySelector('.popup__input_type_person-name').setAttribute('value', userInfoName.textContent);
+  document.querySelector('.popup__input_type_about').setAttribute('value', userInfoJob.textContent);
+}
+
+
+
+//Изменение пользователя
+const person = function () {
+  personInfo.name = inputPersonName.value;
+  personInfo.about = inputPersonAbout.value;
+  formPerson.reset();
+  userInfoName.textContent = personInfo.name;
+  userInfoJob.textContent = personInfo.about;
+  changeUserInfo();
+}
 
 // Слушатели
 document.querySelector('.user-info__button').addEventListener('click', showPlaceForm);
@@ -142,6 +161,8 @@ document.querySelector('.popup__close_person').addEventListener('click', showPer
 
 
 // Вызовы функций и методов
+changeUserInfo();
+
 initialCards.forEach(function(item) {
   renderPlaceCard(item);
 });
@@ -151,4 +172,10 @@ formPlace.addEventListener('submit', function(event) {
   userPlaceCard();
   event.preventDefault();
   showPlaceForm();
+})
+
+formPerson.addEventListener('submit', function(event) {
+  event.preventDefault();
+  showPersonForm();
+  person();
 })
