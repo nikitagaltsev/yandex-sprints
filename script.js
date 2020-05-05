@@ -43,17 +43,27 @@ const initialCards = [
 
 // Декларация переменных
 const placesContainer = document.querySelector('.places-list');
-const form = document.forms.new;
-const inputName = form.elements.name;
-const inputLink = form.elements.link;
+const formPlace = document.forms.place;
+const formPerson = document.forms.profile;
+const inputPlaceName = formPlace.elements.name;
+const inputPlaceLink = formPlace.elements.link;
+const inputPersonName = formPerson.elements.name;
+const inputPersonAbout = formPerson.elements.about;
 const inputButton = document.querySelector('.popup__button');
-inputName.setAttribute('required', true);
-inputLink.setAttribute('required', true);
+inputPlaceName.setAttribute('required', true);
+inputPlaceLink.setAttribute('required', true);
+inputPersonName.setAttribute('required', true);
+inputPersonAbout.setAttribute('required', true);
 
 const customCard = {
   name: '',
   link: ''
 };
+
+const personInfo = {
+  name: '',
+  about: ''
+}
 
 
 // Функции
@@ -86,8 +96,6 @@ const removeCardHandler = function(event) {
 
 
 // Отрисовка карточки и определение её элементов 
-
-
 const renderPlaceCard = function(item) {
   const newPlaceCard = createPlaceCard();
   newPlaceCard.querySelector('.place-card__image').setAttribute('style', `background-image: url(${item['link']})`);
@@ -107,25 +115,30 @@ const renderPlaceCard = function(item) {
   placesContainer.appendChild(newPlaceCard);
 };
 
-// Управление отображением формы
-const showForm = function() {
-  document.querySelector('.popup').classList.toggle('popup_is-opened');
+// Управление отображением форм
+const showPlaceForm = function() {
+  document.querySelector('.popup_place').classList.toggle('popup_is-opened');
 };
+const showPersonForm = function() {
+  document.querySelector('.popup_person').classList.toggle('popup_is-opened')
+}
 
 
-//Добавление кастомой карточки
+//Добавление кастомной карточки
 const userPlaceCard = function() {
-  customCard.name = inputName.value;
-  customCard.link = inputLink.value;
+  customCard.name = inputPlaceName.value;
+  customCard.link = inputPlaceLink.value;
   initialCards.push(customCard);
-  form.reset();
+  formPlace.reset();
   renderPlaceCard(initialCards[initialCards.length-1]);
 };
 
 
 // Слушатели
-document.querySelector('.user-info__button').addEventListener('click', showForm);
-document.querySelector('.popup__close').addEventListener('click', showForm);
+document.querySelector('.user-info__button').addEventListener('click', showPlaceForm);
+document.querySelector('.popup__close_place').addEventListener('click', showPlaceForm);
+document.querySelector('.user-info__edit-button').addEventListener('click', showPersonForm);
+document.querySelector('.popup__close_person').addEventListener('click', showPersonForm);
 
 
 // Вызовы функций и методов
@@ -134,8 +147,8 @@ initialCards.forEach(function(item) {
 });
 
 
-form.addEventListener('submit', function(event) {
+formPlace.addEventListener('submit', function(event) {
   userPlaceCard();
   event.preventDefault();
-  showForm();
+  showPlaceForm();
 })
