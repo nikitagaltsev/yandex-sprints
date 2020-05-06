@@ -52,10 +52,12 @@ const inputPersonAbout = formPerson.elements.about;
 const inputButton = document.querySelector('.popup__button');
 const userInfoName = document.querySelector('.user-info__name');
 const userInfoJob = document.querySelector('.user-info__job');
+const popupNode = document.querySelectorAll('.popup');
 inputPlaceName.setAttribute('required', true);
 inputPlaceLink.setAttribute('required', true);
 inputPersonName.setAttribute('required', true);
 inputPersonAbout.setAttribute('required', true);
+
 
 const customCard = {
   name: '',
@@ -101,7 +103,7 @@ const removeCardHandler = function(event) {
 const imagePopup = function(image) {
   const backgroundImage = image.style.backgroundImage.replace('url(','').replace(')','').replace(/\"/gi, "");
   document.querySelector('.popup__image-open').setAttribute('src', backgroundImage);
-  showImageForm();
+  showPopup(2);
 }
 
 
@@ -121,31 +123,14 @@ const renderPlaceCard = function(item) {
 
   likeButton.addEventListener('click', function(event) {
     event.target.classList.toggle('place-card__like-icon_liked');
-  })
+  });
 
   newPlaceCard.querySelector('.place-card__image').addEventListener('click', function(event) {
     imagePopup(event.target);
-  })
+  });
 
   placesContainer.appendChild(newPlaceCard);
 };
-
-// Активность кнопок
-
-
-// Управление отображением форм
-const showPlaceForm = function() {
-  document.querySelector('.popup_place').classList.toggle('popup_is-opened');
-};
-const showPersonForm = function() {
-  document.querySelector('.popup_person').classList.toggle('popup_is-opened');
-};
-const showImageForm = function() {
-  document.querySelector('.popup_image').classList.toggle('popup_is-opened');
-};
-// Активность конопок
-
-
 
 //Добавление кастомной карточки
 const userPlaceCard = function() {
@@ -156,13 +141,11 @@ const userPlaceCard = function() {
   renderPlaceCard(initialCards[initialCards.length-1]);
 };
 
-
 //Инициализация пользователя
 const changeUserInfo = function() {
   document.querySelector('.popup__input_type_person-name').setAttribute('value', userInfoName.textContent);
   document.querySelector('.popup__input_type_about').setAttribute('value', userInfoJob.textContent);
 };
-
 
 //Изменение пользователя
 const person = function() {
@@ -174,13 +157,29 @@ const person = function() {
   changeUserInfo();
 };
 
-// Слушатели
-document.querySelector('.user-info__button').addEventListener('click', showPlaceForm);
-document.querySelector('.popup__close_place').addEventListener('click', showPlaceForm);
-document.querySelector('.user-info__edit-button').addEventListener('click', showPersonForm);
-document.querySelector('.popup__close_person').addEventListener('click', showPersonForm);
-document.querySelector('.popup__close_image').addEventListener('click', showImageForm);
+// Отображение попапа
+const showPopup = function(id) {
+  popupNode[id].classList.toggle('popup_is-opened');
+  popupNode[id].querySelector('.popup__close').addEventListener('click', e => {
+    popupNode[id].classList.remove('popup_is-opened');
+  })
+};
 
+// Слушатели
+document.querySelector('.user-info__edit-button').addEventListener('click', e => { showPopup(0) });
+document.querySelector('.user-info__button').addEventListener('click', e => { showPopup(1) });
+
+formPerson.addEventListener('submit', function(event) {
+  event.preventDefault();
+  showPopup(0);
+  person();
+});
+
+formPlace.addEventListener('submit', function(event) {
+  userPlaceCard();
+  event.preventDefault();
+  showPopup(1);
+});
 
 // Вызовы функций и методов
 changeUserInfo();
@@ -188,21 +187,3 @@ changeUserInfo();
 initialCards.forEach(function(item) {
   renderPlaceCard(item);
 });
-
-formPlace.addEventListener('submit', function(event) {
-  userPlaceCard();
-  event.preventDefault();
-  showPlaceForm();
-})
-
-formPerson.addEventListener('submit', function(event) {
-  event.preventDefault();
-  showPersonForm();
-  person();
-})
-
-
-
-
-
-// .popup__button_active
