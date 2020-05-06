@@ -65,7 +65,7 @@ const customCard = {
 const personInfo = {
   name: '',
   about: ''
-}
+};
 
 
 // Функции
@@ -96,6 +96,7 @@ const removeCardHandler = function(event) {
   event.target.closest('.place-card').remove();
 };
 
+
 //popup для изображений
 const imagePopup = function(image) {
   const backgroundImage = image.style.backgroundImage.replace('url(','').replace(')','').replace(/\"/gi, "");
@@ -115,7 +116,7 @@ const renderPlaceCard = function(item) {
 
   deleteButton.addEventListener('click', function(event) {
     removeCardHandler(event);
-    event.stopPropagation()
+    event.stopPropagation();
   });
 
   likeButton.addEventListener('click', function(event) {
@@ -129,6 +130,8 @@ const renderPlaceCard = function(item) {
   placesContainer.appendChild(newPlaceCard);
 };
 
+// Активность кнопок
+
 
 // Управление отображением форм
 const showPlaceForm = function() {
@@ -140,6 +143,8 @@ const showPersonForm = function() {
 const showImageForm = function() {
   document.querySelector('.popup_image').classList.toggle('popup_is-opened');
 };
+// Активность конопок
+
 
 
 //Добавление кастомной карточки
@@ -156,18 +161,18 @@ const userPlaceCard = function() {
 const changeUserInfo = function() {
   document.querySelector('.popup__input_type_person-name').setAttribute('value', userInfoName.textContent);
   document.querySelector('.popup__input_type_about').setAttribute('value', userInfoJob.textContent);
-}
+};
 
 
 //Изменение пользователя
-const person = function () {
+const person = function() {
   personInfo.name = inputPersonName.value;
   personInfo.about = inputPersonAbout.value;
   formPerson.reset();
   userInfoName.textContent = personInfo.name;
   userInfoJob.textContent = personInfo.about;
   changeUserInfo();
-}
+};
 
 // Слушатели
 document.querySelector('.user-info__button').addEventListener('click', showPlaceForm);
@@ -184,7 +189,6 @@ initialCards.forEach(function(item) {
   renderPlaceCard(item);
 });
 
-
 formPlace.addEventListener('submit', function(event) {
   userPlaceCard();
   event.preventDefault();
@@ -196,3 +200,9 @@ formPerson.addEventListener('submit', function(event) {
   showPersonForm();
   person();
 })
+
+
+
+
+
+// .popup__button_active
